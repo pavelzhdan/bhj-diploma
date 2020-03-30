@@ -18,8 +18,13 @@ class Sidebar {
    * при нажатии на кнопку .sidebar-toggle
    * */
   static initToggleButton() {
-
-  }
+    let button = document.querySelector("a.sidebar-toggle");
+    button.addEventListener("click", () => {
+      let mainBody = document.querySelector("body.skin-blue");
+      mainBody.classList.toggle("sidebar-open");
+      mainBody.classList.toggle("sidebar-collapse");
+    });
+  };
 
   /**
    * При нажатии на кнопку входа, показывает окно входа
