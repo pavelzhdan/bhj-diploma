@@ -3,6 +3,7 @@
  * на сервер.
  * */
 const createRequest = (options = {}) => {
+    if(options.method === "GET"){
         let xhr = new XMLHttpRequest();
         xhr.open(options.method, `${options.url}?mail=${options.data.mail}&password=${options.data.password}`);
         xhr.withCredentials = true;
@@ -11,7 +12,7 @@ const createRequest = (options = {}) => {
             xhr.setRequestHeader(head, options.headers[head]);
         };
         xhr.send();
-    /*} else {
+    } else {
         let xhr = new XMLHttpRequest;
         formData = new FormData;
 
@@ -38,5 +39,5 @@ const createRequest = (options = {}) => {
         err = xhr.statusText;
         response  = undefined;
         callbackFunction(err, response);
-    };*/
+    };
 };
