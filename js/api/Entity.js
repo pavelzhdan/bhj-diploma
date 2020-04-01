@@ -22,7 +22,6 @@ class Entity {
       },
       responseType: 'json',
       method: 'GET',
-      callback = (err, response)
     });
   }
 

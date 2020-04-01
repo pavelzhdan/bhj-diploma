@@ -3,17 +3,23 @@
  * на сервер.
  * */
 const createRequest = (options = {}) => {
+    let xhr = new XMLHttpRequest();
     if(options.method === "GET"){
-        let xhr = new XMLHttpRequest();
-        xhr.open(options.method, `${options.url}?mail=${options.data.mail}&password=${options.data.password}`);
+        xhr.open(options.method, `${options.url}?mail=${options.data.username}&password=${options.data.password}`);
         xhr.withCredentials = true;
-        xhr.responseType = options.responseType;
-        for (head in headers){
+        xhr.responseType = 'json';
+        let headersName = Object.getOwnPropertyNames(options.headers);
+        for(let i=0; i< headersName.length; i++){
+            let currentName = headersName[i]
+            xhr.setRequestHeader(currentName, options.headers.currentName);
+        };
+        /*if(options.headers){
+        for (head in options.headers){
             xhr.setRequestHeader(head, options.headers[head]);
         };
+    };*/
         xhr.send();
     } else {
-        let xhr = new XMLHttpRequest;
         formData = new FormData;
 
         for(dataElement in options.data){
@@ -21,7 +27,7 @@ const createRequest = (options = {}) => {
         };        
         xhr.open(options.method, options.url);
         xhr.withCredentials = true;
-        xhr.responseType = options.responseType;
+        xhr.responseType = 'json';
         for (head in headers){
             xhr.setRequestHeader(head, options.headers[head]);
         };
@@ -29,15 +35,14 @@ const createRequest = (options = {}) => {
     };
     let err;
     let response;
-    let callbackFunction = options.callback;
 
     if(xhr.status === 200){ 
         err = null;
         response = xhr.responseText;
-        callbackFunction(err, response);
+        options.callback(response);
     } else {
         err = xhr.statusText;
         response  = undefined;
-        callbackFunction(err, response);
+        options.callback(err);
     };
 };
