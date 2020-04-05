@@ -5,12 +5,18 @@
  * Имеет свойство URL, равное '/user'.
  * */
 class User {
+
+  constructor() {
+    this.URL = "/user";
+    this.HOST = Entity.HOST;
+}
   /**
    * Устанавливает текущего пользователя в
    * локальном хранилище.
    * */
   static setCurrent(user) {
-
+    User.unsetCurrent().setItem();
+    localStorage.setItem("user", {"id": user.id, "name": user.name});
   }
 
   /**
@@ -18,7 +24,7 @@ class User {
    * пользователе из локального хранилища.
    * */
   static unsetCurrent() {
-
+    localStorage.removeItem("user");
   }
 
   /**
@@ -26,7 +32,7 @@ class User {
    * из локального хранилища
    * */
   static current() {
-
+    localStorage.getItem("user");
   }
 
   /**
@@ -34,7 +40,7 @@ class User {
    * авторизованном пользователе.
    * */
   static fetch( data, callback = f => f ) {
-
+    
   }
 
   /**
