@@ -6,11 +6,11 @@
 const createRequest = (options = {}) => {
     let xhr = new XMLHttpRequest();
     if(options.method === "GET"){
-        let userInfo = [];
-        for(let dataElement in options.data){
-            userInfo.push(options.data[dataElement]);
-        };    
-        xhr.open(options.method, `${options.url}?mail=${userInfo[0]}&password=${userInfo[1]}`);
+        let userspecificURL = [];
+        for (let property in options.data){
+            userspecificURL.push(`${property}=${options.data[property]}`);
+          };
+        xhr.open(options.method, `${options.url}?${userspecificURL.join("&")}`);
     } else {
         formData = new FormData;
         for(dataElement in options.data){
@@ -21,27 +21,20 @@ const createRequest = (options = {}) => {
     };
     xhr.withCredentials = true;
     xhr.responseType = 'json';
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            let response = xhr.responseText;
+            options.callback(null, response)
+        } if (!xhr.status === 200){
+            console.log(`ошибка`);
+        };
+    };
     if(!typeof formData === undefined){
         xhr.send(formData);
     } else{
         xhr.send();
     };
-
-    let err;
-    let response;
-
-    if(xhr.status === 200){ 
-        err = null;
-        response = xhr.responseText;
-        options.callback(err, response);
-    } else {
-        err = xhr.statusText;
-        response  = undefined;
-        options.callback(response);
-    };
 };
-
-
 
 /*const createRequest = (options = {}) => {
     let xhr = new XMLHttpRequest();
