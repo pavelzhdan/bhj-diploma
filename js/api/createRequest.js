@@ -13,9 +13,9 @@ const createRequest = (options = {}) => {
         xhr.open(options.method, `${options.url}?${userspecificURL.join("&")}`);
     } else {
         formData = new FormData;
-        for(dataElement in options.data){
-            formData.append(dataElement, `${options.data.dataElement}`);
-        };        
+        for(let property in options.data){
+            formData.append(property, `${options.data[property]}`);
+        };
         xhr.open(options.method, options.url);
         
     };
