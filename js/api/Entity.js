@@ -5,8 +5,8 @@
  * */
 class Entity {
   constructor(){
-    this.HOST = "";
-    this.URL = "https://bhj-diplom.letsdocode.ru";
+    this.HOST = "https://bhj-diplom.letsdocode.ru";
+    this.URL = " ";
   }
   /**
    * Запрашивает с сервера список данных.
@@ -14,18 +14,11 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static list( data, callback = f => f ) {
-    const xhr = createRequest({
-      url: String(this.URL)+String(this.HOST),
-      data: {
-        username: data.mail,
-        password: data.password
-      },
+    return createRequest({
+      url: String(this.HOST)+String(this.URL),
+      data,
       method: 'GET',
-    },
-    callback = (err, response)=>{
-      console.log( err );
-      console.log( response );
-    });
+      callback});
   }
 
   /**
@@ -34,15 +27,11 @@ class Entity {
    * что наследуется от Entity)
    * */
   static create( data, callback = f => f ) {
-    let copy =Object.assign({_method: 'PUT'}, data ),
-    const xhr = createRequest({
-      url: String(this.URL)+String(this.HOST),
+    return createRequest({
+      url: String(this.HOST)+String(this.URL),
       method: 'POST',
-      data
-    },
-      callback = (err, response) => {
-        console.log( err );
-        console.log( response );
+      data: Object.assign({_method: 'PUT'}, data ),
+      callback
       });
   };
 
@@ -51,15 +40,11 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static get( id = '', data, callback = f => f ) {
-    let copy =Object.assign(id = '', data );
-    const xhr = createRequest({
-      url: String(this.URL)+String(this.HOST),
-      copy,
-      method: 'GET'},
-
-     callback = (err, response) => {
-        console.log( 'Ошибка, если есть', err );
-        console.log( 'Данные, если нет ошибки', response );
+     return createRequest({
+      url: String(this.HOST)+String(this.URL),
+      data: Object.assign({id: id}, data ),
+      method: 'GET',
+      callback
     })
   }
 
@@ -68,17 +53,11 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static remove( id = '', data, callback = f => f ) {
-    let copy = Object.assign({ id = '' }, data );
-    copy = Object.assign({ _method = 'DELETE' }, data );
-    const xhr = createRequest({
-      url: String(this.URL)+String(this.HOST),
-      copy,
-      method: 'GET'},
-
-      callback = (err, response) => {
-        console.log( err );
-        console.log( response );
-      }
-    )}
+    return createRequest({
+      url: String(this.HOST)+String(this.URL),
+      data: Object.assign({ _method: 'DELETE' }, { id: id }, data ),
+      method: 'GET',
+      callback
+    })
+  }
 }
-
