@@ -5,19 +5,18 @@
 
 const createRequest = (options = {}) => {
     let xhr = new XMLHttpRequest();
+    let formData = new FormData;
     if(options.method === "GET"){
-        let userspecificURL = [];
+        options.url += "?";
         for (let property in options.data){
-            userspecificURL.push(`${property}=${options.data[property]}`);
+            options.url += `${property}=${options.data[property]}&`;
           };
-        xhr.open(options.method, `${options.url}?${userspecificURL.join("&")}`);
+        xhr.open(options.method, options.url);
     } else {
-        formData = new FormData;
         for(let property in options.data){
             formData.append(property, `${options.data[property]}`);
         };
         xhr.open(options.method, options.url);
-        
     };
     xhr.withCredentials = true;
     xhr.responseType = 'json';
@@ -29,9 +28,9 @@ const createRequest = (options = {}) => {
             console.log(`ошибка`);
         };
     };
-    if(!typeof formData === undefined){
+    try{
         xhr.send(formData);
-    } else{
-        xhr.send();
+    } catch (err){
+        console.log(err);
     };
 };
