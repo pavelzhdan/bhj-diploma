@@ -4,8 +4,7 @@
  * Имеет свойство URL со значением '/transaction'
  * */
 class Transaction extends Entity{
-    constructor() {
-        this.URL = "/transaction";
-    }
+
 }
 
+Transaction.URL = "/transaction";

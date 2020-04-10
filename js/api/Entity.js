@@ -4,10 +4,7 @@
  * Имеет свойство HOST, равно 'https://bhj-diplom.letsdocode.ru'.
  * */
 class Entity {
-  constructor(){
-    this.HOST = "https://bhj-diplom.letsdocode.ru";
-    this.URL = " ";
-  }
+
   /**
    * Запрашивает с сервера список данных.
    * Это могут быть счета или доходы/расходы
@@ -15,7 +12,7 @@ class Entity {
    * */
   static list( data, callback = f => f ) {
     return createRequest({
-      url: String(this.HOST)+String(this.URL),
+      url: `${this.HOST}${this.URL}`,
       data,
       method: 'GET',
       callback});
@@ -28,7 +25,7 @@ class Entity {
    * */
   static create( data, callback = f => f ) {
     return createRequest({
-      url: String(this.HOST)+String(this.URL),
+      url: `${this.HOST}${this.URL}`,
       method: 'POST',
       data: Object.assign({_method: 'PUT'}, data ),
       callback
@@ -41,7 +38,7 @@ class Entity {
    * */
   static get( id = '', data, callback = f => f ) {
      return createRequest({
-      url: String(this.HOST)+String(this.URL),
+      url: `${this.HOST}${this.URL}`,
       data: Object.assign({id: id}, data ),
       method: 'GET',
       callback
@@ -54,10 +51,13 @@ class Entity {
    * */
   static remove( id = '', data, callback = f => f ) {
     return createRequest({
-      url: String(this.HOST)+String(this.URL),
+      url: `${this.HOST}${this.URL}`,
       data: Object.assign({ _method: 'DELETE' }, { id: id }, data ),
       method: 'GET',
       callback
     })
   }
 }
+
+Entity.HOST = "https://bhj-diplom.letsdocode.ru";
+Entity.URL = " ";
