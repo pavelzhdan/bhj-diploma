@@ -6,16 +6,12 @@
  * */
 class User {
 
-  constructor() {
-    this.URL = "/user";
-    this.HOST = Entity.HOST;
-}
   /**
    * Устанавливает текущего пользователя в
    * локальном хранилище.
    * */
   static setCurrent(user) {
-    localStorage.setItem("user", {"id": user.id, "name": user.name});
+    localStorage.user = JSON.stringify(user);
   }
 
   /**
@@ -23,7 +19,7 @@ class User {
    * пользователе из локального хранилища.
    * */
   static unsetCurrent() {
-    localStorage.removeItem("user");
+    delete localStorage.user;
   }
 
   /**
@@ -31,7 +27,10 @@ class User {
    * из локального хранилища
    * */
   static current() {
-    localStorage.getItem("user");
+    const data = localStorage.user;
+    if(!data == undefined){
+    return JSON.parse(data)
+    }  
   }
 
   /**
@@ -40,8 +39,9 @@ class User {
    * */
   static fetch( data, callback = f => f ) {
     return createRequest({
-      url: String(this.HOST) + String(this.URL) + "/current",
+      url: `${this.HOST}${this.URL}/current`,
       method: "GET",
+      data,
       callback: (err, response) => {
         if (response.success) {
           this.setCurrent(response.user);
@@ -60,8 +60,9 @@ class User {
    * */
   static login( data, callback = f => f ) {
     return createRequest({
-      url: String(this.HOST) + String(this.URL) + "/login",
+      url: `${this.HOST}${this.URL}/login`,
       method: "POST",
+      data,
       callback: (err, response) => {
         if (response.success) {
           this.setCurrent(response.user);
@@ -78,8 +79,9 @@ class User {
    * */
   static register( data, callback = f => f ) {
     return createRequest({
-      url: String(this.HOST) + String(this.URL) + "/register",
+      url: `${this.HOST}${this.URL}/register`,
       method: "POST",
+      data,
       callback: (err, response) => {
         if (response.success) {
           this.setCurrent(response.user);
@@ -94,8 +96,9 @@ class User {
    * */
   static logout( data, callback = f => f ) {
     return createRequest({
-      url: String(this.HOST) + String(this.URL) + "/logout",
+      url: `${this.HOST}${this.URL}/logout`,
       method: "POST",
+      data,
       callback: (err, response) => {
         if (response.success) {
           this.unsetCurrent();
@@ -104,3 +107,6 @@ class User {
     })
   }
 }
+
+User.URL = "/user";
+User.HOST = Entity.HOST;
