@@ -12,5 +12,6 @@ class CreateAccountForm {
    * */
   onSubmit( options ) {
 
+
   }
 }

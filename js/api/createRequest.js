@@ -22,9 +22,9 @@ const createRequest = (options = {}) => {
     xhr.responseType = 'json';
     xhr.onreadystatechange = () => {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            let response = xhr.responseText;
+            let response = xhr.response;
             options.callback(null, response)
-        } if (!xhr.status === 200){
+        } else if (!xhr.status === 200){
             console.log(`ошибка`);
         };
     };

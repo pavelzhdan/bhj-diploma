@@ -14,10 +14,9 @@ class AsyncForm {
    * */
   constructor( element ) {
     if(!element){
-      console.log("Ошибка")
+      console.log("Ошибка");
     } else {
       this.element = element;
-      element.preventDefault();
       this.registerEvents();
     }
   }
@@ -27,10 +26,9 @@ class AsyncForm {
    * вызывает метод submit()
    * */
   registerEvents() {
-    let button = this.querySelector("button.btn.btn-primary");
-    button.addEventListener("submit", (event)=>{
-      event.preventDefault();
-      this.submit();
+    this.element.addEventListener('submit', (e) => { 
+    e.preventDefault(); 
+    this.submit();
     })
   }
 
@@ -44,7 +42,7 @@ class AsyncForm {
   getData() {
     let form = new FormData(this.element);
     let adaptatedForm = form.entries();
-    let dataToSend;
+    let dataToSend = {};
     for(let key in adaptatedForm){
       dataToSend.key =  adaptatedForm[key];
     };
